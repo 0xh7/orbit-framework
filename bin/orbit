@@ -1,0 +1,11 @@
+#!/usr/bin/env lua
+
+package.path = "./src/?.lua;./src/?/init.lua;./src/?/?.lua;" .. package.path
+
+local cli = require("orbit.cli")
+
+local ok, err = pcall(cli.run, arg)
+if not ok then
+  io.stderr:write("orbit: " .. tostring(err) .. "\n")
+  os.exit(1)
+end
