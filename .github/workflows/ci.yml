@@ -15,14 +15,13 @@ jobs:
           - "5.2"
           - "5.3"
           - "5.4"
-          - "luajit-2.1"
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: leafo/gh-actions-lua@v11
+      - uses: actions/checkout@v6.0.2
+      - uses: leafo/gh-actions-lua@v13.0.0
         with:
           luaVersion: ${{ matrix.luaVersion }}
-      - uses: leafo/gh-actions-luarocks@v5
+      - uses: leafo/gh-actions-luarocks@v6.1.0
       - run: luarocks install luasocket
       - run: luarocks install busted
       - run: luarocks install luacheck
@@ -30,11 +29,41 @@ jobs:
       - run: luacheck src spec examples bin/orbit
       - run: busted spec
 
+  luajit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.2
+      - uses: leafo/gh-actions-lua@v13.0.0
+        with:
+          luaVersion: "luajit-2.1"
+      - run: |
+          lua - <<'LUA'
+          package.path = "./src/?.lua;./src/?/init.lua;./src/?/?.lua;" .. package.path
+
+          local orbit = require("orbit")
+          local json = require("orbit.json")
+          local http = require("orbit.http")
+
+          local app = orbit.new()
+          app:get("/users/:id", function(ctx)
+            return ctx:json({ id = ctx.params.id, query = ctx.query })
+          end)
+
+          local res = app:handle({ method = "GET", target = "/users/7?lang=lua" })
+          assert(res.status_code == 200, res.status_code)
+          assert(json.decode(res.body).id == "7")
+
+          local req, err = http.parse_request_string("GET / HTTP/1.1\r\nHost: local\r\n\r\n")
+          assert(req, err and err.body)
+          assert(req.keep_alive == true)
+          LUA
+
   format:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: JohnnyMorganz/stylua-action@v4
+      - uses: actions/checkout@v6.0.2
+      - uses: JohnnyMorganz/stylua-action@v5.0.0
         with:
+          version: "2.5.2"
           token: ${{ secrets.GITHUB_TOKEN }}
           args: --check src spec examples bin/orbit
