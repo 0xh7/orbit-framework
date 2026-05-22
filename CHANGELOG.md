@@ -1,8 +1,17 @@
 # Changelog
 
+## 0.2.1 - 2026-05-22
+
+Fixed static file edge cases found during release review.
+
+- Normalized trailing slashes in `app:static` mount paths.
+- Changed directory read failures in static middleware to fall through instead of
+  returning `500`.
+- Added tests for trailing-slash static mounts and nested directory handling.
+
 ## 0.2.0 - 2026-05-22
 
-Added practical response and file-serving helpers for small production services.
+Added practical response and file-serving helpers for Lua services.
 
 - Added response cookies, cookie clearing, and request cookie parsing.
 - Added redirects through `ctx:redirect`.

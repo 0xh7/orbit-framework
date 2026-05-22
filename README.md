@@ -157,8 +157,8 @@ make format-check
 
 ## Release
 
-Release rockspecs use the matching Git tag as their source. For `0.2.0`, the
-release rockspec is `orbit-framework-0.2.0-1.rockspec`.
+Release rockspecs use the matching Git tag as their source. For `0.2.1`, the
+release rockspec is `orbit-framework-0.2.1-1.rockspec`.
 
 ## License
 

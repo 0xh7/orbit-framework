@@ -156,7 +156,16 @@ end
 
 function App:static(path, root, options)
   local static = require("orbit.static")
-  return self:use(path, static.middleware(path, root, options))
+  local mount_path = path
+
+  if type(mount_path) == "string" then
+    mount_path = mount_path:gsub("/+$", "")
+    if mount_path == "" then
+      mount_path = "/"
+    end
+  end
+
+  return self:use(mount_path, static.middleware(mount_path, root, options))
 end
 
 function App:on_error(handler)

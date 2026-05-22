@@ -1,7 +1,7 @@
 local app = require("orbit.app")
 
 local orbit = {
-  _VERSION = "0.2.0",
+  _VERSION = "0.2.1",
   new = app.new,
   App = app.App,
   Context = app.Context,

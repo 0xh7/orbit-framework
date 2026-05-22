@@ -106,7 +106,7 @@ function static.middleware(prefix, root, options)
     file:close()
 
     if body == nil then
-      return ctx:status(500):text("Internal Server Error")
+      return next_layer()
     end
 
     if options.cache_control then
