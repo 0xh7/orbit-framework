@@ -1,6 +1,7 @@
 LUA_VERSION ?= 5.4
 LUA_DIR ?= $(shell if [ -d /opt/homebrew/opt/lua@5.4 ]; then printf /opt/homebrew/opt/lua@5.4; fi)
 ROCKS_TREE ?= ./.luarocks
+ROCKSPEC ?= orbit-framework-dev-1.rockspec
 ROCKS_BIN := $(abspath $(ROCKS_TREE))/bin
 LUAROCKS ?= luarocks
 LUAROCKS_FLAGS := --lua-version=$(LUA_VERSION) --tree $(ROCKS_TREE)
@@ -29,4 +30,4 @@ format-check:
 	stylua --check src spec examples bin/orbit
 
 rock:
-	$(LUAROCKS) $(LUAROCKS_FLAGS) make orbit-framework-dev-1.rockspec
+	$(LUAROCKS) $(LUAROCKS_FLAGS) make $(ROCKSPEC)

@@ -1,5 +1,7 @@
 # Orbit
 
+[![CI](https://github.com/0xh7/orbit-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/0xh7/orbit-framework/actions/workflows/ci.yml)
+
 Orbit is a from-scratch backend framework for Lua. It provides an Express-like API,
 middleware, routing, request/response helpers, JSON, and a small HTTP/1.1 server
 implemented over raw TCP with LuaSocket.
@@ -12,7 +14,13 @@ This is an early v1 implementation. It intentionally supports HTTP/1.1 only and 
 not include TLS, HTTP/2, WebSockets, chunked transfer decoding, sessions, auth, or a
 database layer.
 
-## Local Install
+## Install
+
+```sh
+luarocks install orbit-framework
+```
+
+For local development:
 
 ```sh
 luarocks make orbit-framework-dev-1.rockspec
@@ -37,7 +45,7 @@ make lint
 make test
 ```
 
-## Small App
+## Example
 
 ```lua
 local orbit = require("orbit")
@@ -59,7 +67,7 @@ end)
 app:listen({ host = "127.0.0.1", port = 8080 })
 ```
 
-Run an app file:
+Run the example app:
 
 ```sh
 orbit serve examples/hello.lua --host 127.0.0.1 --port 8080
@@ -131,6 +139,11 @@ make lint
 make test
 make format-check
 ```
+
+## Release
+
+Release rockspecs use the matching Git tag as their source. For `0.1.0`, the
+release rockspec is `orbit-framework-0.1.0-1.rockspec`.
 
 ## License
 
