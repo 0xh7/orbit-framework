@@ -16,8 +16,13 @@ database layer.
 
 ## LuaRocks
 
-Orbit is prepared for LuaRocks publication. After the LuaRocks upload is complete,
-the package will be installable with `luarocks install orbit-framework`.
+Install the published package:
+
+```sh
+luarocks install orbit-framework
+```
+
+Package page: <https://luarocks.org/modules/0xh7/orbit-framework>
 
 For local development:
 
