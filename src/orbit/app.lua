@@ -28,6 +28,24 @@ function Context:send(body)
   return self.res:send(body)
 end
 
+function Context:redirect(location, status_code)
+  if type(location) ~= "string" or location == "" then
+    error("redirect location must be a non-empty string", 2)
+  end
+
+  return self.res:status(status_code or 302):header("Location", location):empty()
+end
+
+function Context:cookie(name, value, options)
+  self.res:cookie(name, value, options)
+  return self
+end
+
+function Context:clear_cookie(name, options)
+  self.res:clear_cookie(name, options)
+  return self
+end
+
 function Context:text(body)
   self.res:type("text/plain; charset=utf-8")
   return self.res:send(body)
@@ -134,6 +152,11 @@ end
 
 function App:head(path, handler)
   return self:route("HEAD", path, handler)
+end
+
+function App:static(path, root, options)
+  local static = require("orbit.static")
+  return self:use(path, static.middleware(path, root, options))
 end
 
 function App:on_error(handler)

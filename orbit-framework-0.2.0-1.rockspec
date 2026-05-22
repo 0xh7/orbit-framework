@@ -1,8 +1,9 @@
 package = "orbit-framework"
-version = "dev-1"
+version = "0.2.0-1"
 
 source = {
   url = "git+https://github.com/0xh7/orbit-framework.git",
+  tag = "v0.2.0",
 }
 
 description = {

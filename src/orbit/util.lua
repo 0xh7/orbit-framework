@@ -11,6 +11,10 @@ function util.is_callable(value)
   return mt ~= nil and type(mt.__call) == "function"
 end
 
+function util.trim(value)
+  return tostring(value or ""):match("^%s*(.-)%s*$")
+end
+
 function util.url_decode(value, plus_as_space)
   if value == nil then
     return ""

@@ -3,8 +3,8 @@
 [![CI](https://github.com/0xh7/orbit-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/0xh7/orbit-framework/actions/workflows/ci.yml)
 
 Orbit is a from-scratch backend framework for Lua. It provides an Express-like API,
-middleware, routing, request/response helpers, JSON, and a small HTTP/1.1 server
-implemented over raw TCP with LuaSocket.
+middleware, routing, request/response helpers, cookies, redirects, static files,
+JSON, and a small HTTP/1.1 server implemented over raw TCP with LuaSocket.
 
 The package name is `orbit-framework`; applications load it with `require("orbit")`.
 
@@ -76,6 +76,7 @@ orbit serve examples/hello.lua --host 127.0.0.1 --port 8080
 
 - `orbit.new(options)` creates an app.
 - `app:use([path], middleware)` registers middleware.
+- `app:static(path, root, options)` serves files from a local directory.
 - `app:get/post/put/patch/delete/options/head/all(path, handler)` registers routes.
 - `app:on_error(handler)` overrides the default `500` response.
 - `app:handle(request)` handles an in-memory request table.
@@ -90,10 +91,20 @@ Handlers receive `ctx`, which exposes:
 - `ctx.state`
 - `ctx:status(code)`
 - `ctx:set(name, value)`
+- `ctx:cookie(name, value, options)`
+- `ctx:clear_cookie(name, options)`
+- `ctx:redirect(location, status_code)`
 - `ctx:text(body)`
 - `ctx:html(body)`
 - `ctx:json(value)`
 - `ctx:send(body)`
+
+Requests expose `ctx.req:header(name)`, `ctx.req:cookie(name)`, `ctx.req:cookies()`,
+`ctx.req:json()`, and `ctx.req:form()`.
+
+Static file serving is intentionally small. It supports `GET` and `HEAD`, simple
+content-type detection, optional `Cache-Control`, index files, and path traversal
+rejection.
 
 `orbit.json.decode` represents JSON `null` as `orbit.json.null` so arrays and object
 fields can preserve explicit null values.
@@ -141,8 +152,8 @@ make format-check
 
 ## Release
 
-Release rockspecs use the matching Git tag as their source. For `0.1.0`, the
-release rockspec is `orbit-framework-0.1.0-1.rockspec`.
+Release rockspecs use the matching Git tag as their source. For `0.2.0`, the
+release rockspec is `orbit-framework-0.2.0-1.rockspec`.
 
 ## License
 

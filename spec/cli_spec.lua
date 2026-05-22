@@ -10,7 +10,7 @@ describe("orbit.cli", function()
       table.insert(output, value)
     end)
     assert.is_true(ok, err)
-    assert.equal("0.1.0\n", table.concat(output))
+    assert.equal("0.2.0\n", table.concat(output))
   end)
 
   it("rejects unsafe project names", function()

@@ -10,6 +10,34 @@ function Request:header(name)
   return self.headers[string.lower(name)]
 end
 
+function Request:cookies()
+  if self._cookies then
+    return self._cookies
+  end
+
+  local cookies = {}
+  local header = self:header("cookie")
+
+  if header then
+    for part in string.gmatch(header .. ";", "%s*(.-)%s*;") do
+      local name, value = part:match("^([^=]+)=?(.*)$")
+      name = name and util.trim(name)
+      value = util.trim(value or "")
+
+      if name and name ~= "" and cookies[name] == nil then
+        cookies[name] = util.url_decode(value, false)
+      end
+    end
+  end
+
+  self._cookies = cookies
+  return cookies
+end
+
+function Request:cookie(name)
+  return self:cookies()[name]
+end
+
 function Request:is(content_type)
   local actual = self:header("content-type")
   if not actual then

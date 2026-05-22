@@ -89,6 +89,16 @@ describe("orbit.http", function()
     assert.truthy(raw:find("\r\n\r\ncreated", 1, true))
   end)
 
+  it("serializes repeated response headers", function()
+    local res = response.new(200):send("ok")
+    res:append_header("Set-Cookie", "a=1")
+    res:append_header("Set-Cookie", "b=2")
+
+    local raw = http.serialize_response(res, false)
+
+    assert.truthy(raw:find("Set-Cookie: a=1\r\nSet-Cookie: b=2", 1, true))
+  end)
+
   it("forces Connection close when keep-alive is disabled", function()
     local res = response.new(200):header("Connection", "keep-alive"):send("ok")
     local raw = http.serialize_response(res, false)

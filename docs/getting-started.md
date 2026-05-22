@@ -70,6 +70,44 @@ end)
 
 Query parameters are available on `ctx.query`.
 
+Cookies are parsed lazily from the `Cookie` header.
+
+```lua
+app:get("/me", function(ctx)
+  return ctx:json({ session = ctx.req:cookie("session") })
+end)
+```
+
+## Responses
+
+```lua
+app:post("/login", function(ctx)
+  ctx:cookie("session", "abc123", {
+    path = "/",
+    http_only = true,
+    same_site = "Lax",
+  })
+
+  return ctx:redirect("/dashboard")
+end)
+
+app:post("/logout", function(ctx)
+  ctx:clear_cookie("session", { path = "/" })
+  return ctx:text("signed out")
+end)
+```
+
+## Static Files
+
+```lua
+app:static("/assets", "public", {
+  cache_control = "public, max-age=3600",
+})
+```
+
+Orbit serves static files for `GET` and `HEAD`, rejects path traversal, and uses a
+small built-in content-type table for common web assets.
+
 ## HTTP Server Limits
 
 The standalone server supports plain HTTP/1.1 over LuaSocket. Defaults:

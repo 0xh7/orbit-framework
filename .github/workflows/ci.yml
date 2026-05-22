@@ -26,9 +26,9 @@ jobs:
       - run: luarocks install busted
       - run: luarocks install luacheck
       - run: luarocks lint orbit-framework-dev-1.rockspec
-      - run: luarocks lint orbit-framework-0.1.0-1.rockspec
+      - run: luarocks lint orbit-framework-0.2.0-1.rockspec
       - run: luarocks make orbit-framework-dev-1.rockspec
-      - run: luarocks make orbit-framework-0.1.0-1.rockspec
+      - run: luarocks make orbit-framework-0.2.0-1.rockspec
       - run: luacheck src spec examples bin/orbit
       - run: busted spec
 
