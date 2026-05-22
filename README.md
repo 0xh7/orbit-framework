@@ -14,11 +14,10 @@ This is an early v1 implementation. It intentionally supports HTTP/1.1 only and 
 not include TLS, HTTP/2, WebSockets, chunked transfer decoding, sessions, auth, or a
 database layer.
 
-## Install
+## LuaRocks
 
-```sh
-luarocks install orbit-framework
-```
+Orbit is prepared for LuaRocks publication. After the LuaRocks upload is complete,
+the package will be installable with `luarocks install orbit-framework`.
 
 For local development:
 
